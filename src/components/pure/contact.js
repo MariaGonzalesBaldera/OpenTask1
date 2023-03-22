@@ -1,27 +1,40 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Contact } from '../../models/contact.class'
-const ContactComponent = ({ contact }) => {
+const ContactComponent = ({ contact, isConected, remove }) => {
+
+    function Conected() {
+        if (contact.isConected) {
+            return (<i onClick={() => isConected(contact)} className="bi bi-circle-fill" style={{ color: 'green' }}></i>)
+        } else {
+            return (<i onClick={() => isConected(contact)} className="bi bi-circle-fill" style={{ color: 'grey' }}></i>)
+        }
+    }
 
     return (
-        <div>
-            <h5>
-                Nombre : {contact.name}
-            </h5>
-            <h5>
-                Apellido : {contact.lastname}
-            </h5>
-            <h5>
-                Correo : {contact.email}
-            </h5>
-            <h5>
-                 {contact.isConected ? 'Contacto en linea':'Contacto no disponible'}
-            </h5>
-        </div>
+
+        <tr className='fw-normal'>
+            <td>
+                <span className='ms-2'>{contact.name}</span>
+            </td>
+            <td>
+                <span className='ms-2'>{contact.lastname}</span>
+            </td>
+            <td>
+                <span className='ms-2'>{contact.email}</span>
+            </td>
+            <td>
+                <span className='align-midle'>{Conected()}</span>
+                <i className='bi-trash task-action' onClick={() => remove()} style={{ color: 'tomato' }}></i>
+
+            </td>
+        </tr>
     )
 }
 ContactComponent.propTypes = {
-    contact:PropTypes.instanceOf(Contact)
+    contact: PropTypes.instanceOf(Contact).isRequired,
+    isConected: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired
 }
 
 export default ContactComponent
